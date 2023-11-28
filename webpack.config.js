@@ -18,18 +18,6 @@ module.exports = {
     ]
   },
   resolve: {
-    fallback: {
-      "crypto": false,
-      "buffer": false,
-      "util": false,
-      "timers": false,
-      "stream": false,
-      "url": false,
-      "os": false,
-      "path": false,
-      "net": false,
-      "tls": false,
-      "fs": false
-    }
+
   }
 };
