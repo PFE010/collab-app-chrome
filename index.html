@@ -7,26 +7,25 @@
 </head>
 <body>
     <div class="container mt-3" style="width: 450px;">
-        <h2 class="text-center">Covid Latest Report-UK</h2>
+        <h2 class="text-center">All prs</h2>
         <table class="table table-bordered">
             <thead>
             <tr>
-                <th>Date</th>
-                <th>Country</th>
-                <th>Confirmed</th>
-                <th>Deaths</th>
+                <th>id_pull_request</th>
+                <th>url</th>
+                <th>description</th>
+                <th>titre</th>
+                <th>date_creation</th>
+                <th>date_merge</th>
+                <th>date_last_updated</th>
+                <th>status</th>
+                <th>labels</th>
             </tr>
             </thead>
-            <tbody>
-            <tr>
-                <td id="date"></td>
-                <td id="areaName"></td>
-                <td id="latestBy"></td>
-                <td id="deathNew"></td>
-            </tr>
+            <tbody id="tableBody">
             </tbody>
         </table>
     </div>
 </body>
-<script src="script.js"></script>
+<script src="dist/bundle.js"></script>
 </html>
