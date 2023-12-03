@@ -42,7 +42,6 @@ function generateTable() {
   // Create elements
   const containerDiv = document.createElement('div');
   containerDiv.classList.add('container', 'mt-3');
-  containerDiv.style.width = '450px';
 
   const heading = document.createElement('h2');
   heading.classList.add('text-center');
@@ -88,6 +87,14 @@ function generateTable() {
 
 function generateTab(node) {
   if (node) {
+    // Remove content header
+    const headerElement = document.getElementById('repository-container-header');
+
+    const newHeader = document.createElement('div');
+    newHeader.id = 'repository-container-header';
+    newHeader.setAttribute('data-turbo-replace', '');
+    newHeader.setAttribute('hidden', '');
+    headerElement.replaceWith(newHeader);
     // Create a new turbo-frame element
     const turboFrameElement = document.createElement('turbo-frame');
 
@@ -135,6 +142,7 @@ function unSelect() {
     // Get the <a> element within each list item
     const anchorElement = item.querySelector('a');
     console.log(anchorElement);
+    anchorElement.removeAttribute('aria-current');
 
     // Check if the <a> element has a class named 'selected'
     if (anchorElement && anchorElement.classList.contains('selected')) {
