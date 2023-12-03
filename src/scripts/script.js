@@ -1,4 +1,3 @@
-
 async function fetchData() {
   try {
     const response = await fetch('http://localhost:3000/collab-app/pullRequests');
@@ -157,6 +156,7 @@ function onCLick() {
   element.classList.add('selected');
 
   generateTab(targetElement);
+  populateTable();
 }
 
 // Function to add a new list item to the specified <ul> element
@@ -167,44 +167,44 @@ function addListItem() {
   const collabAppLiElement = document.getElementById('collab-app');
 
   if (ulElement && !collabAppLiElement) {
-      // Create a new list item
-      const listItem = document.createElement('li');
-      listItem.setAttribute('data-view-component', 'true'); // Set data-view-component attribute
-      listItem.className = 'd-inline-flex'; // Add class to the list item
+    // Create a new list item
+    const listItem = document.createElement('li');
+    listItem.setAttribute('data-view-component', 'true'); // Set data-view-component attribute
+    listItem.className = 'd-inline-flex'; // Add class to the list item
 
-      // Create an <a> element
-      const classesToAdd = [
-        'UnderlineNav-item',
-        'no-wrap',
-        'js-responsive-underlinenav-item',
-        'js-selected-navigation-item',
-        'selected'
-      ];
+    // Create an <a> element
+    const classesToAdd = [
+      'UnderlineNav-item',
+      'no-wrap',
+      'js-responsive-underlinenav-item',
+      'js-selected-navigation-item',
+      'selected'
+    ];
 
-      const linkElement = document.createElement('a');
-      linkElement.id = 'collab-app';
-      linkElement.href = '/collab-app'; // Set the href attribute (Replace with actual link)
-      linkElement.textContent = 'Collaboration Overview'; // Replace with desired text for the link
-      classesToAdd.forEach(className => {
-        linkElement.classList.add(className);
-      });
+    const linkElement = document.createElement('a');
+    linkElement.id = 'collab-app';
+    linkElement.href = '/collab-app'; // Set the href attribute (Replace with actual link)
+    linkElement.textContent = 'Collaboration Overview'; // Replace with desired text for the link
+    classesToAdd.forEach(className => {
+      linkElement.classList.add(className);
+    });
 
-      // Add click event listener to the <a> element to open index.html on click
-      linkElement.addEventListener('click', function (event) {
-        event.preventDefault(); // Prevent default link behavior
-        onCLick(); // Call function to open index.html
-      });
+    // Add click event listener to the <a> element to open index.html on click
+    linkElement.addEventListener('click', function (event) {
+      event.preventDefault(); // Prevent default link behavior
+      onCLick(); // Call function to open index.html
+    });
 
-      // Append <a> and <p> elements to the list item
-      listItem.appendChild(linkElement);
-  
-      // Append the new list item to the <ul> element
-      ulElement.appendChild(listItem);
-    } else {
-      console.error('Target <ul> element not found');
-    }
+    // Append <a> and <p> elements to the list item
+    listItem.appendChild(linkElement);
+
+    // Append the new list item to the <ul> element
+    ulElement.appendChild(listItem);
+  } else {
+    console.error('Target <ul> element not found');
   }
+}
 
-  // Call the function to add a list item when the content script runs
-  addListItem();
+// Call the function to add a list item when the content script runs
+addListItem();
 
