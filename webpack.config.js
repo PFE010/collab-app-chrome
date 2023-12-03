@@ -1,23 +1,14 @@
 const path = require('path');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-  entry: './index.js',
+  entry: './src/scripts/script.js',
   output: {
-    filename: 'bundle.js',
+    filename: 'script.bundle.js',
     path: path.resolve(__dirname, 'dist')
   },
-  module: {
-    rules: [
-      {
-        test: /\.js$/,
-        exclude: /(node_modules)/,
-        use: {
-          loader: 'babel-loader'
-        }
-      }
-    ]
-  },
-  resolve: {
-
-  }
+  watch: true,
+  plugins:[
+    new CopyWebpackPlugin({patterns: [{from: 'static'}]})
+  ] 
 };
