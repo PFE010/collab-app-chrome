@@ -1,3 +1,92 @@
+
+async function fetchData() {
+  try {
+    const response = await fetch('http://localhost:3000/collab-app/pullRequests');
+    
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('There was a problem with the fetch operation:', error);
+    return [];
+  }
+}
+
+async function populateTable() {
+  try {
+    const data = await fetchData();
+    console.log(data);
+    
+    const tableBody = document.getElementById('tableBody');
+    tableBody.innerHTML = '';
+
+    data.forEach(item => {
+      const row = document.createElement('tr');
+
+      Object.values(item).forEach(value => {
+        const cell = document.createElement('td');
+        cell.textContent = value;
+        row.appendChild(cell);
+      });
+
+      tableBody.appendChild(row);
+    });
+  } catch (error) {
+    console.error('Error while populating table:', error);
+  }
+}
+
+function generateTable() {
+  // Create elements
+  const containerDiv = document.createElement('div');
+  containerDiv.classList.add('container', 'mt-3');
+  containerDiv.style.width = '450px';
+
+  const heading = document.createElement('h2');
+  heading.classList.add('text-center');
+  heading.textContent = 'All prs';
+
+  const table = document.createElement('table');
+  table.classList.add('table', 'table-bordered');
+
+  const tableHead = document.createElement('thead');
+  const tableHeadRow = document.createElement('tr');
+  const tableHeaders = [
+    'id_pull_request',
+    'url',
+    'description',
+    'titre',
+    'date_creation',
+    'date_merge',
+    'date_last_updated',
+    'status',
+    'labels'
+  ];
+
+  // Create table header cells
+  tableHeaders.forEach(headerText => {
+    const headerCell = document.createElement('th');
+    headerCell.textContent = headerText;
+    tableHeadRow.appendChild(headerCell);
+  });
+  tableHead.appendChild(tableHeadRow);
+
+  const tableBody = document.createElement('tbody');
+  tableBody.id = 'tableBody';
+
+  // Assemble elements
+  table.appendChild(tableHead);
+  table.appendChild(tableBody);
+
+  containerDiv.appendChild(heading);
+  containerDiv.appendChild(table);
+
+  return containerDiv
+} 
+
 function generateTab(node) {
   if (node) {
     // Create a new turbo-frame element
@@ -20,10 +109,10 @@ function generateTab(node) {
     let newDiv = document.createElement('div');
     newDiv.setAttribute('class', 'clearfix container-xl px-md-4 px-lg-5 px-3 mt-4');
 
+    const tableDiv = generateTable();
     // Set the HTML content to the target element
-    newDiv.innerHTML = htmlContent;
+    newDiv.appendChild(tableDiv);
     turboFrameElement.appendChild(newDiv);
-
     node.replaceChild(turboFrameElement, node.querySelector('turbo-frame'))
 
     window.location.href = window.location.href + '#collab-app';
@@ -115,6 +204,7 @@ function addListItem() {
       console.error('Target <ul> element not found');
     }
   }
-  
+
   // Call the function to add a list item when the content script runs
   addListItem();
+
