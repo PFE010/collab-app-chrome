@@ -1,7 +1,6 @@
 async function fetchData() {
   try {
     const response = await fetch('http://localhost:3000/collab-app/pullRequests');
-    
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
