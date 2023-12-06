@@ -1,19 +1,30 @@
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400&display=swap");
 
+:root {
+	--yellow: #ffdd40;
+	--dark: #2f313a;
+	--deg: -86deg;
+	--trans: all 0.4s ease 0s;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	overflow-x: hidden;
+	display: flex;
+	justify-content: center;
+	font-family: "Lato", Arial, Helvetica, serif;
+	background: linear-gradient(90deg, #131417, var(--dark) 35% 65%, #131417);
+	font-size: 1em;
+}
+
 body *,
 body *:before,
 body *:after {
 	box-sizing: border-box;
 }
 
-.Collab-app-content {
-    margin: 0;
-	padding: 0;
-	overflow-x: hidden;
-	display: flex;
-	justify-content: center;
-	font-family: "Lato", Arial, Helvetica, serif;
-	font-size: 1em;
+.content {
 	width: 90vmin;
 }
 
@@ -106,16 +117,16 @@ h2 {
 	transition: var(--trans);
 }
 
-.Collab-app-description {
+.description {
 	padding-top: 1vmin;
 }
 
-.Collab-app-description p {
+.description p {
 	padding: 0 2em;
 	margin-bottom: 1em;
 }
 
-.Collab-app-h3 {
+h3 {
 	background: linear-gradient(182deg, #fff0 60%, var(--dark) 0 100%);
 	display: inline;
 	transform: rotate(-2deg);
@@ -164,7 +175,7 @@ h2 {
 	transform: rotate(-3deg);
 }
 
-.Collab-app-description p a {
+.description p a {
 	display: inline-block;
 	margin: 0.5em 0 0 0;
 	background: var(--dark);
@@ -174,14 +185,14 @@ h2 {
 	text-decoration: none;
 	transition: var(--trans);
 }
-.Collab-app-description p a:hover {
+.description p a:hover {
 	transition: var(--trans);
 	color: var(--dark);
 	background: var(--yellow);
 	font-weight: bold;
 }
 
-.Collab-app-description p a img {
+.description p a img {
 	float: left;
 	width: 22px;
 	filter: invert(1);
