@@ -431,6 +431,7 @@ function onCLick() {
   const targetElement = document.querySelector('main');
   const element = document.getElementById('collab-app');
 
+  // Remove selected from other list item
   unSelect();
 
   element.classList.add('selected');
