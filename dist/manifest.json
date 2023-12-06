@@ -1,0 +1,13 @@
+{
+    "name": "Collab-app chrome extension",
+    "version": "1.0.0",
+    "description": "latest covid data of UK",
+    "manifest_version": 3,
+    "author": "Olivier Fontaine",
+    "content_scripts": [
+        {
+            "js": ["script.bundle.js"],
+            "matches": ["https://*.github.com/*"]
+        }
+    ]
+}
