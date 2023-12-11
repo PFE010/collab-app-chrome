@@ -1,8 +1,0 @@
-curl -X POST \
-  -H "Authorization: bearer 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" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name": "Collab-App",
-    "content_type": "markdown"
-  }' \
-  https://api.github.com/repos/zipthezap/testzip1/contents/tabs/Collab-app

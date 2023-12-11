@@ -1,0 +1,22 @@
+{
+    "name": "Collab-app chrome extension",
+    "version": "1.0",
+    "description": "latest covid data of UK",
+    "manifest_version": 3,
+    "author": "Olivier Fontaine",
+    "action": {
+        "default_icon": "images/reactor-o@0.5x.png"
+    },
+    "background": {
+        "service_worker": "background.js"
+    },
+    "commands": {
+        "_execute_action": {
+            "suggested_key": {
+                "default": "Ctrl+B",
+                "mac": "Command+B"
+            }
+        }
+    },
+    "permissions": ["activeTab", "scripting"]
+}
