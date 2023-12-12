@@ -15,8 +15,7 @@ function convertPRUrl(url) {
   return webURL;
 }
 
-
-async function fetchData() {
+async function fetchPrData() {
   try {
     const response = await fetch('http://localhost:3000/collab-app/pullRequests');
     
@@ -24,95 +23,55 @@ async function fetchData() {
       throw new Error('Network response was not ok');
     }
     
-    const data = await response.json();
-    return data;
+    return await response.json();
   } catch (error) {
     console.error('There was a problem with the fetch operation:', error);
     return [];
   }
 }
 
+async function fetchUsersData() {
+    try {
+      const response = await fetch('http://localhost:3000/collab-app/users');
+      
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
 
-function generateTable() {
-  // Create elements
-  const containerDiv = document.createElement('div');
-  containerDiv.classList.add('container', 'mt-3');
+      return await response.json();
+    } catch (error) {
+      console.error('There was a problem with the fetch operation:', error);
+      return [];
+    }
+}
 
-  const heading = document.createElement('h2');
-  heading.classList.add('text-center');
-  heading.textContent = 'All prs';
-
-  const table = document.createElement('table');
-  table.classList.add('table', 'table-bordered');
-
-  const tableHead = document.createElement('thead');
-  const tableHeadRow = document.createElement('tr');
-  const tableHeaders = [
-    'id_pull_request',
-    'url',
-    'description',
-    'titre',
-    'date_creation',
-    'date_merge',
-    'date_last_updated',
-    'status',
-    'labels'
-  ];
-
-  // Create table header cells
-  tableHeaders.forEach(headerText => {
-    const headerCell = document.createElement('th');
-    headerCell.textContent = headerText;
-    tableHeadRow.appendChild(headerCell);
-  });
-  tableHead.appendChild(tableHeadRow);
-
-  const tableBody = document.createElement('tbody');
-  tableBody.id = 'tableBody';
-
-  // Assemble elements
-  table.appendChild(tableHead);
-  table.appendChild(tableBody);
-
-  containerDiv.appendChild(heading);
-  containerDiv.appendChild(table);
-
-  return containerDiv
-} 
-
-function generateTab(node) {
+async function generateTab(node) {
   if (node) {
     // Remove content header
     const headerElement = document.getElementById('repository-container-header');
-
     const newHeader = document.createElement('div');
     newHeader.id = 'repository-container-header';
     newHeader.setAttribute('data-turbo-replace', '');
     newHeader.setAttribute('hidden', '');
     headerElement.replaceWith(newHeader);
+
     // Create a new turbo-frame element
     const turboFrameElement = document.createElement('turbo-frame');
-
+   
     // Set attributes for the turbo-frame element
     turboFrameElement.id = 'repo-content-turbo-frame';
     turboFrameElement.setAttribute('target', '_top');
     turboFrameElement.setAttribute('data-turbo-action', 'advance');
-    turboFrameElement.setAttribute('src', 'https://github.com/Souchy/Log721-Lab1');
     turboFrameElement.setAttribute('complete', '');
 
-    const htmlContent = `
-      <div>
-        <h2>Your HTML Content</h2>
-        <p>This is your HTML content injected into the element!</p>
-      </div>
-    `;
-
     let newDiv = document.createElement('div');
-    newDiv.setAttribute('class', 'clearfix container-xl px-md-4 px-lg-5 px-3 mt-4');
-
-    const tableDiv = generateTable();
+    newDiv.classList.add('contentFrame');
+    console.log(await fetchUsersData());
     // Set the HTML content to the target element
-    newDiv.appendChild(tableDiv);
+    newDiv.insertAdjacentHTML("afterbegin", generateHeader());
+    newDiv.appendChild(generatePrTable(await fetchPrData()));
+    newDiv.appendChild(generateUsersTable(await fetchUsersData()));
+
     turboFrameElement.appendChild(newDiv);
     node.replaceChild(turboFrameElement, node.querySelector('turbo-frame'))
 
@@ -146,7 +105,91 @@ function unSelect() {
   });
 }
 
+function generateHeader() {
+    return `
+    <div>
+        <h2>Collaborations overview</h2>
+        <p>This is your HTML content injected into the element!</p>
+    </div>
+    `;
+}
 
+function generatePrTable(data) {
+    var div = document.createElement('div');
+    div.classList.add('side-by-side')
+
+    var table = document.createElement("table");
+    table.id = "prTable";
+    table.classList.add('contentTable');
+    div.appendChild(table);
+
+    // Create the table header
+    var thead = document.createElement("thead");
+    var headerRow = thead.insertRow();
+    var headers = ["ID", "url", "Description", "Creation date", "Merge date", "Last update", "Status", "Labels"];
+
+    for (var i = 0; i < headers.length; i++) {
+        var th = document.createElement("th");
+        th.textContent = headers[i];
+        headerRow.appendChild(th);
+    }
+
+    table.appendChild(thead);
+
+    // Create the table body
+    var tbody = document.createElement("tbody");
+
+    for (var i = 0; i < data.length; i++) {
+        var row = tbody.insertRow(i);
+
+        for (var j = 0; j < headers.length; j++) {
+        var cell = row.insertCell(j);
+        cell.textContent = data[i][headers[j].toLowerCase()];
+        }
+    }
+
+    table.appendChild(tbody);
+    return div;
+}
+
+function generateUsersTable(data) {
+    var div = document.createElement('div');
+    div.classList.add('side-by-side')
+
+    var table = document.createElement("table");
+    table.id = "usersTable";
+    table.classList.add('contentTable');
+    div.appendChild(table);
+
+    // Create the table header
+    var thead = document.createElement("thead");
+    var headerRow = thead.insertRow();
+    var headers = ["Username", "Points", "badges"];
+
+    for (var i = 0; i < headers.length; i++) {
+        var th = document.createElement("th");
+        th.textContent = headers[i];
+        headerRow.appendChild(th);
+    }
+
+    table.appendChild(thead);
+
+    // Create the table body
+    var tbody = document.createElement("tbody");
+
+    for (var i = 0; i < data.length; i++) {
+        var row = tbody.insertRow(i);
+
+        for (var j = 0; j < headers.length; j++) {
+        var cell = row.insertCell(j);
+        cell.textContent = data[i][headers[j].toLowerCase()];
+        }
+    }
+
+    table.appendChild(tbody);
+    return div;
+}
+  
 async function populateTable() {
   try {
     console.log("test");
@@ -218,9 +261,7 @@ async function populateTable() {
 }
 
 // Function to open index.html in a new tab or window
-function onCLick() {
-  console.log("on click");
-
+async function onCLick() {
   const targetElement = document.querySelector('main');
   const element = document.getElementById('collab-app');
 
@@ -229,14 +270,11 @@ function onCLick() {
 
   element.classList.add('selected');
 
-  generateTab(targetElement);
-  populateTable();
+  await generateTab(targetElement);
 }
 
 // Function to add a new list item to the specified <ul> element
 function addListItem() {
-  console.log("add item");
-
   const ulElement = document.querySelector('.UnderlineNav-body.list-style-none');
   const collabAppLiElement = document.getElementById('collab-app');
 
@@ -263,9 +301,9 @@ function addListItem() {
     });
 
     // Add click event listener to the <a> element to open index.html on click
-    linkElement.addEventListener('click', function (event) {
+    linkElement.addEventListener('click', async function (event) {
       event.preventDefault(); // Prevent default link behavior
-      onCLick(); // Call function to open index.html
+      await onCLick(); // Call function to open index.html
     });
 
     // Append <a> and <p> elements to the list item
@@ -276,13 +314,6 @@ function addListItem() {
   } else {
     console.error('Target <ul> element not found');
   }
-}
-
-function listItemTemplate() {
-  return `
-      <h1>test</h1>
-      <p>testestetsetsets</p>
-  `
 }
 
 // Call the function to add a list item when the content script runs
