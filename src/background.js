@@ -21,7 +21,7 @@ chrome.action.onClicked.addListener(async (tab) => {
             text: nextState,
         });
         
-        if (nextState === "ON") {
+        if (nextState == "ON") {
             // Insert the CSS file when the user turns the extension on
             await chrome.scripting.insertCSS({
                 files: ["scripts/stylesheet.css"],
@@ -31,16 +31,17 @@ chrome.action.onClicked.addListener(async (tab) => {
                 files: ["scripts/content.js"],
                 target: { tabId: tab.id },
             });
-        } else if (nextState === "OFF") {
-            await chrome.scripting.removeScript({
-                files: ["scripts/content.js"],
-                target: { tabId: tab.id },
-              });
-            // Remove the CSS file when the user turns the extension off
+        } else if (nextState == "OFF") {
+            // Remove the CSS and script file when the user turns the extension off
             await chrome.scripting.removeCSS({
                 files: ["scripts/stylesheet.css"],
                 target: { tabId: tab.id },
             });
+            await chrome.scripting.removeScript({
+                files: ["scripts/content.js"],
+                target: { tabId: tab.id },
+            });
+            //chrome.tabs.reload(tab.id);
         }
     }
 });

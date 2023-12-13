@@ -66,11 +66,10 @@ async function generateTab(node) {
 
     let newDiv = document.createElement('div');
     newDiv.classList.add('contentFrame');
-    console.log(await fetchUsersData());
+
     // Set the HTML content to the target element
-    newDiv.insertAdjacentHTML("afterbegin", generateHeader());
-    newDiv.appendChild(generatePrTable(await fetchPrData()));
     newDiv.appendChild(generateUsersTable(await fetchUsersData()));
+    newDiv.appendChild(generatePrTable(await fetchPrData()));
 
     turboFrameElement.appendChild(newDiv);
     node.replaceChild(turboFrameElement, node.querySelector('turbo-frame'))
@@ -108,15 +107,17 @@ function unSelect() {
 function generateHeader() {
     return `
     <div>
-        <h2>Collaborations overview</h2>
-        <p>This is your HTML content injected into the element!</p>
+        <h2>Repo Users</h2>
     </div>
     `;
 }
 
 function generatePrTable(data) {
     var div = document.createElement('div');
-    div.classList.add('side-by-side')
+
+    let header = document.createElement('h2');
+    header.textContent = 'Repo Pull Requests'
+    div.appendChild(header);
 
     var table = document.createElement("table");
     table.id = "prTable";
@@ -126,7 +127,7 @@ function generatePrTable(data) {
     // Create the table header
     var thead = document.createElement("thead");
     var headerRow = thead.insertRow();
-    var headers = ["ID", "url", "Description", "Creation date", "Merge date", "Last update", "Status", "Labels"];
+    var headers = ["Titre", "url", "Description", "Creation date", "Merge date", "Last update", "Status", "Labels"];
 
     for (var i = 0; i < headers.length; i++) {
         var th = document.createElement("th");
@@ -153,21 +154,24 @@ function generatePrTable(data) {
 }
 
 function generateUsersTable(data) {
-    var div = document.createElement('div');
-    div.classList.add('side-by-side')
+    let div = document.createElement('div');
 
-    var table = document.createElement("table");
+    let header = document.createElement('h2');
+    header.textContent = 'Repo Users'
+    div.appendChild(header);
+
+    let table = document.createElement("table");
     table.id = "usersTable";
     table.classList.add('contentTable');
     div.appendChild(table);
 
     // Create the table header
-    var thead = document.createElement("thead");
-    var headerRow = thead.insertRow();
-    var headers = ["Username", "Points", "badges"];
+    let thead = document.createElement("thead");
+    let headerRow = thead.insertRow();
+    let headers = ["Username", "Points", "Badges"];
 
     for (var i = 0; i < headers.length; i++) {
-        var th = document.createElement("th");
+        let th = document.createElement("th");
         th.textContent = headers[i];
         headerRow.appendChild(th);
     }
@@ -181,8 +185,19 @@ function generateUsersTable(data) {
         var row = tbody.insertRow(i);
 
         for (var j = 0; j < headers.length; j++) {
-        var cell = row.insertCell(j);
-        cell.textContent = data[i][headers[j].toLowerCase()];
+            var cell = row.insertCell(j);
+            console.log(i + 'data:' + data[i][headers[j].toLowerCase()]);
+            if(headers[j] === "Badges" && data[i][headers[j].toLowerCase()] !== undefined) {
+                data[i][headers[j].toLowerCase()].forEach(imagePath => {
+                    console.log(imagePath['image']);
+                    let  badge = document.createElement("div");
+                    badge.id = imagePath['image'].split('.')[0];
+                    cell.appendChild(badge);
+                });
+            }
+            else {
+                cell.textContent = data[i][headers[j].toLowerCase()];
+            }
         }
     }
 

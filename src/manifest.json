@@ -5,7 +5,7 @@
     "manifest_version": 3,
     "author": "Olivier Fontaine",
     "action": {
-        "default_icon": "images/reactor-o@0.5x.png"
+        "default_icon": "images/icon.png"
     },
     "background": {
         "service_worker": "background.js"
@@ -18,5 +18,11 @@
             }
         }
     },
+    "web_accessible_resources": [ 
+        { 
+            "resources": ["images/*"], 
+            "matches": ["<all_urls>"]
+        }
+    ],
     "permissions": ["activeTab", "scripting"]
 }
