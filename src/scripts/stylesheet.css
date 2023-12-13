@@ -188,11 +188,11 @@ body *:after {
 	margin-right: 2px;
 }
 
-.contentFrame {
+.contentAppFrame {
   margin: 20px;
 }
 
-.contentTable {
+.contentAppTable {
   border-collapse: collapse;
   width: 80%;
   margin: 20px;
@@ -246,12 +246,11 @@ body *:after {
 }
 
 .side-by-side {
-  float: left;
-  width: 48%; /* Adjust the width as needed */
-  margin: 1%; /* Adjust the margin as needed */
+  display: inline-block;
+  margin-right: 10px;
 }
 
-#commenter-a {
+#commenter-s {
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Commenter-a.png');
 	background-repeat: no-repeat;
 	width: 85px;
@@ -263,14 +262,14 @@ body *:after {
 	width: 85px;
 	height: 85px;
 }
-#commenter-o {
+#commenter-g {
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Commenter-o.png');
 	background-repeat: no-repeat;
 	width: 85px;
 	height: 85px;
 }
 
-#reactor-a {
+#reactor-s {
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Reactor-a.png');
 	background-repeat: no-repeat;
 	width: 85px;
@@ -282,14 +281,14 @@ body *:after {
 	width: 85px;
 	height: 85px;
 }
-#reactor-o {
+#reactor-g {
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Reactor-o.png');
 	background-repeat: no-repeat;
 	width: 85px;
 	height: 85px;
 }
 
-#committed-a {
+#committed-s {
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Committed-a.png');
 	background-repeat: no-repeat;
 	width: 85px;
@@ -301,14 +300,14 @@ body *:after {
 	width: 85px;
 	height: 85px;
 }
-#committed-o {
+#committed-g {
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Committed-o.png');
 	background-repeat: no-repeat;
 	width: 85px;
 	height: 85px;
 }
 
-#labeller-a {
+#labeller-s {
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Labeller-a.png');
 	background-repeat: no-repeat;
 	width: 85px;
@@ -320,26 +319,26 @@ body *:after {
 	width: 85px;
 	height: 85px;
 }
-#labeller-o {
+#labeller-g {
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/Labeller-o.png');
 	background-repeat: no-repeat;
 	width: 85px;
 	height: 85px;
 }
 
-#prspecialist-a {
+#pr-specialist-s {
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/pr_specialist-a.png');
 	background-repeat: no-repeat;
 	width: 85px;
 	height: 85px;
 }
-#prspecialist-b {
+#pr-specialist-b {
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/pr_specialist-b.png');
 	background-repeat: no-repeat;
 	width: 85px;
 	height: 85px;
 }
-#prspecialist-o {
+#pr-specialist-g {
 	background-image: url('chrome-extension://__MSG_@@extension_id__/images/pr_specialist-o.png');
 	background-repeat: no-repeat;
 	width: 85px;

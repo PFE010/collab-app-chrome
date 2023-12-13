@@ -1,7 +1,7 @@
 {
-    "name": "Collab-app chrome extension",
+    "name": "PR Podium chrome extension",
     "version": "1.0",
-    "description": "latest covid data of UK",
+    "description": "PR Podium extention",
     "manifest_version": 3,
     "author": "Olivier Fontaine",
     "action": {

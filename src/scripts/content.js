@@ -1,23 +1,7 @@
 
-function convertPRUrl(url) {
-  // Split the API URL by '/' to extract parts
-  const parts = url.split('/');
-
-  // Extract owner, repository, and pull number from the parts
-  const owner = parts[4];
-  const repo = parts[5];
-  const pullNumber = parts[7];
-
-  // Construct the GitHub web URL for the pull request
-  const webURL = `https://github.com/${owner}/${repo}/pull/${pullNumber}`;
-
-  console.log(webURL);
-  return webURL;
-}
-
 async function fetchPrData() {
   try {
-    const response = await fetch('http://localhost:3000/collab-app/pullRequests');
+    const response = await fetch('https://collab-app-service.azurewebsites.net/collab-app/pullRequests');
     
     if (!response.ok) {
       throw new Error('Network response was not ok');
@@ -32,7 +16,7 @@ async function fetchPrData() {
 
 async function fetchUsersData() {
     try {
-      const response = await fetch('http://localhost:3000/collab-app/users');
+      const response = await fetch('https://collab-app-service.azurewebsites.net/collab-app/users');
       
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -65,7 +49,7 @@ async function generateTab(node) {
     turboFrameElement.setAttribute('complete', '');
 
     let newDiv = document.createElement('div');
-    newDiv.classList.add('contentFrame');
+    newDiv.classList.add('contentAppFrame');
 
     // Set the HTML content to the target element
     newDiv.appendChild(generateUsersTable(await fetchUsersData()));
@@ -121,7 +105,7 @@ function generatePrTable(data) {
 
     var table = document.createElement("table");
     table.id = "prTable";
-    table.classList.add('contentTable');
+    table.classList.add('contentAppTable');
     div.appendChild(table);
 
     // Create the table header
@@ -162,7 +146,7 @@ function generateUsersTable(data) {
 
     let table = document.createElement("table");
     table.id = "usersTable";
-    table.classList.add('contentTable');
+    table.classList.add('contentAppTable');
     div.appendChild(table);
 
     // Create the table header
@@ -191,6 +175,8 @@ function generateUsersTable(data) {
                 data[i][headers[j].toLowerCase()].forEach(imagePath => {
                     console.log(imagePath['image']);
                     let  badge = document.createElement("div");
+                    badge.classList.add('side-by-side');
+                    
                     badge.id = imagePath['image'].split('.')[0];
                     cell.appendChild(badge);
                 });
@@ -203,76 +189,6 @@ function generateUsersTable(data) {
 
     table.appendChild(tbody);
     return div;
-}
-  
-async function populateTable() {
-  try {
-    console.log("test");
-
-    const data = await fetchData();
-    console.log(data);
-    
-    const contentDiv = document.createElement('div');
-    contentDiv.classList.add('Collab-app-content');
-
-    const teamList = document.createElement('ul');
-    teamList.classList.add('team');
-
-    data.forEach(item => {
-      console.log("test1");
-      const listItem = document.createElement('li');
-      listItem.classList.add('member');
-
-      const thumbnailDiv = document.createElement('div');
-      thumbnailDiv.classList.add('thumb');
-      const thumbnailImg = document.createElement('img');
-      thumbnailImg.src = item.thumbnailUrl; // Replace 'thumbnailUrl' with the actual key from your data
-      thumbnailDiv.appendChild(thumbnailImg);
-
-      const descriptionDiv = document.createElement('div');
-      descriptionDiv.classList.add('Collab-app-description');
-      const title = document.createElement('h3');
-      title.classList.add('Collab-app-h3');
-      console.log("test2");
-
-      const titleAnchor = document.createElement('a');
-      titleAnchor.href = convertPRUrl(item.url); // Replace with your desired URL
-      titleAnchor.textContent = item.titre; // Replace with your desired title text
-      title.appendChild(titleAnchor);
-
-      const paragraph = document.createElement('p');
-      paragraph.textContent = item.description; // Replace 'description' with the actual key from your data
-      paragraph.classList.add('Collab-app-p');
-
-      const link = document.createElement('a');
-      link.href = item.profileLink; // Replace 'profileLink' with the actual key from your data
-      link.username = item.username; // Replace 'username' with the actual key from your data
-      link.classList.add('Collab-app-profile-a');
-
-      console.log("test3");
-
-      paragraph.appendChild(link);
-      descriptionDiv.appendChild(titleAnchor);
-      descriptionDiv.appendChild(paragraph);
-
-      listItem.appendChild(thumbnailDiv);
-      listItem.appendChild(descriptionDiv);
-
-      teamList.appendChild(listItem);
-    });
-
-    contentDiv.appendChild(teamList);
-    document.body.appendChild(contentDiv);
-
-    // Create a link element to import the CSS file
-    const linkElement = document.createElement('link');
-    linkElement.rel = 'stylesheet';
-    linkElement.href = 'index.css';
-    
-    document.head.appendChild(linkElement);
-  } catch (error) {
-    console.error('Error while populating table:', error);
-  }
 }
 
 // Function to open index.html in a new tab or window
@@ -310,7 +226,7 @@ function addListItem() {
     const linkElement = document.createElement('a');
     linkElement.id = 'collab-app';
     linkElement.href = '/collab-app'; // Set the href attribute (Replace with actual link)
-    linkElement.textContent = 'Collaboration Overview'; // Replace with desired text for the link
+    linkElement.textContent = 'PR Podium'; // Replace with desired text for the link
     classesToAdd.forEach(className => {
       linkElement.classList.add(className);
     });
